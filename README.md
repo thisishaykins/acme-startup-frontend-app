@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# ACME Startup Invoicing Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend App for the ACME Invoicing application, built using ReactJS, AntDesign and Axios.
 
 ## Available Scripts
 
