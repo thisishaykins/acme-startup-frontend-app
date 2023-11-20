@@ -38,3 +38,23 @@
     transform: rotate(360deg);
   }
 }
+
+.form-card {
+  max-width: 600px;
+    margin: 5%;
+}
+
+.form-card .ant-card, .ant-card {
+  margin-bottom: 15px;
+}
+
+.loading-data {
+  width: 500px;
+  margin: 0px auto;
+  margin-top: 15%;
+  text-align: center;
+}
+
+.loading-icon {
+  font-size: 100px;
+}

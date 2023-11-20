@@ -1,6 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { LoadingOutlined, SyncOutlined } from '@ant-design/icons';
+import { Card, Table, Tag } from 'antd';
 import { getInvoiceById } from '../services/api';
+
+const calProduct = (units, amount) => {
+    let USD = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'});
+    return USD.format(units * Number(amount))
+}
+
+const columns = [
+  {
+    title: 'Product Code',
+    dataIndex: 'productCode',
+    key: 'productCode',
+  },
+  {
+    title: 'Product Description',
+    dataIndex: 'productDescription',
+    key: 'productDescription',
+  },
+  {
+    title: 'Product Price Per Unit ($)',
+    dataIndex: 'productPricePerUnit',
+    key: 'productPricePerUnit',
+    sorter: true,
+  },
+  {
+    title: 'Product Quantity',
+    dataIndex: 'productQuantity',
+    key: 'productQuantity',
+    sorter: true,
+  },
+  {
+    title: 'Total Product Amount ($)',
+    render: row => {
+        if (row.id) {
+        return calProduct(row.productQuantity, row.productPricePerUnit);
+        }
+    }
+  },
+];
 
 const InvoiceDetail = () => {
   const { invoiceId } = useParams();  // Use the useParams hook to get route parameters
@@ -21,27 +61,32 @@ const InvoiceDetail = () => {
   }, [invoiceId]);
 
   if (!invoice) {
-    return <p>Loading...</p>;
+    return <p className='loading-data'>
+            <LoadingOutlined className='loading-icon' /><br/>
+            Fetching invoice data...</p>;
   }
 
   return (
-    <div>
-      <h2>Invoice Detail</h2>
-      <p>Invoice #{invoice.sequenceNumber}</p>
-      <p>Date: {invoice.date}</p>
-      <p>Customer: {invoice.customerName}</p>
-      <ul>
-        {invoice.details.map((detail) => (
-          <li key={detail.id}>
-            <p>Product Code: {detail.productCode}</p>
-            <p>Product Description: {detail.productDescription}</p>
-            <p>Price per Unit: {detail.productPricePerUnit}</p>
-            <p>Quantity: {detail.productQuantity}</p>
-          </li>
-        ))}
-      </ul>
-      <Link to={`/`}>Back</Link>
-    </div>
+    <Card title="Invoice Details">
+        <Card type="inner" title="Customer Details">
+            <p>Invoice #{invoice.sequenceNumber} </p>
+            <p><small>Date:</small><br/> {invoice.date}</p>
+            <p><small>Customer Name:</small><br/> {invoice.customerName}</p>
+            <p><small>Customer Address:<br/> {invoice.customerAddress}</small></p>
+        </Card>
+        <Card
+            style={{ marginTop: 16 }}
+            type="inner"
+            title="Invoice Products"
+            >
+            <Table 
+                columns={columns} 
+                dataSource={invoice.details}
+                bordered
+                footer={() => 'Total products counts: ' + invoice.details.length} />
+            <Link to={`/`}>Back</Link>
+        </Card>
+    </Card>
   );
 };
 
