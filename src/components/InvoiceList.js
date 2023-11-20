@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Col, Row } from 'antd';
 import { getInvoices } from '../services/api';
-
 import InvoiceForm from './InvoiceForm';
 
 const InvoiceList = () => {
@@ -38,12 +38,12 @@ const InvoiceList = () => {
 
   return (
     <section>
-        <h2>Invoice List</h2>
-        <div className='card card-container'>
-            <div className='card card-form'>
+        <Row>
+            <Col span={9}>
                 <InvoiceForm onInvoiceCreated={fetchInvoices} />
-            </div>
-            <div className='card card-main'>
+            </Col>
+            <Col span={15}>
+                <h2>Invoices</h2>
                 <ul>
                     {Array.isArray(invoices) && invoices.length > 0 ? (
                     invoices.map((invoice) => (
@@ -70,8 +70,8 @@ const InvoiceList = () => {
                     <p>No invoices available</p>
                     )}
                 </ul>
-            </div>
-        </div>
+            </Col>
+        </Row>
     </section>
   );
 };
