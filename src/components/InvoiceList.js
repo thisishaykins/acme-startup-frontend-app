@@ -56,7 +56,7 @@ const InvoiceList = () => {
                                 <p><small>Date:</small><br/> {invoice.date}</p>
                                 <p><small>Customer Name:</small><br/> {invoice.customerName}</p>
                                 <p><small>Customer Address:<br/> {invoice.customerAddress}</small></p>
-                                <small><strong>Invoice Counts: {invoice.details.length}</strong></small>
+                                <small><strong>Product Counts: {invoice.details.length}</strong></small>
                                 {/* <ul>
                                     {invoice.details.map((detail) => (
                                         <li key={detail.id}>

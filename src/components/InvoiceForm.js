@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Card, Alert } from 'antd';
 import { createInvoice } from '../services/api';
 
 const InvoiceForm = ({ onInvoiceCreated }) => {
@@ -69,83 +70,99 @@ const InvoiceForm = ({ onInvoiceCreated }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      <h2>Create Invoice</h2>
-      <label>Date:</label>
-      <input
-        type="date"
-        name="date"
-        value={formData.date}
-        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-        required
-      />
+    <Card type="inner" title="Create Invoice" bordered={true} className='form-card'>
+        <form onSubmit={handleSubmit} className='nice-form'>
 
-      <label>Customer Name:</label>
-      <input
-        type="text"
-        name="customerName"
-        value={formData.customerName}
-        onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-        required
-      />
+            {successMessage && <Alert message={successMessage} type="success" />}
+            <div class="nice-form-group">
+                <label>Date:</label>
+                <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    required
+                />
+            </div>
 
-      <label>Customer Address:</label>
-      <input
-        type="text"
-        name="customerAddress"
-        value={formData.customerAddress}
-        onChange={(e) => setFormData({ ...formData, customerAddress: e.target.value })}
-        required
-      />
+            <div class="nice-form-group">
+                <label>Customer Name:</label>
+                <input
+                    type="text"
+                    name="customerName"
+                    value={formData.customerName}
+                    onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                    required
+                />
+            </div>
 
-      <h3>Details:</h3>
-      {formData.details.map((detail, index) => (
-        <div key={index}>
-          <label>Product Code:</label>
-          <input
-            type="text"
-            name="productCode"
-            value={detail.productCode}
-            onChange={(e) => handleInputChange(e, index)}
-            required
-          />
+            <div class="nice-form-group">
+                <label>Customer Address:</label>
+                <input
+                    type="text"
+                    name="customerAddress"
+                    value={formData.customerAddress}
+                    onChange={(e) => setFormData({ ...formData, customerAddress: e.target.value })}
+                    required
+                />
+            </div>
 
-          <label>Product Description:</label>
-          <input
-            type="text"
-            name="productDescription"
-            value={detail.productDescription}
-            onChange={(e) => handleInputChange(e, index)}
-            required
-          />
+            <h3>Product Details:</h3>
+            {formData.details.map((detail, index) => (
+                <div className='product-item' key={index}>
+                    <div class="nice-form-group">
+                        <label>Product Code:</label>
+                        <input
+                            type="text"
+                            name="productCode"
+                            value={detail.productCode}
+                            onChange={(e) => handleInputChange(e, index)}
+                            required
+                        />
+                    </div>
 
-          <label>Price per Unit:</label>
-          <input
-            type="number"
-            name="productPricePerUnit"
-            value={detail.productPricePerUnit}
-            onChange={(e) => handleInputChange(e, index)}
-            required
-          />
+                    <div class="nice-form-group">
+                        <label>Product Description:</label>
+                        <input
+                            type="text"
+                            name="productDescription"
+                            value={detail.productDescription}
+                            onChange={(e) => handleInputChange(e, index)}
+                            required
+                        />
+                    </div>
 
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="productQuantity"
-            value={detail.productQuantity}
-            onChange={(e) => handleInputChange(e, index)}
-            required
-          />
-        </div>
-      ))}
-      
-      <button type="button" onClick={handleAddDetail}>
-        Add Detail
-      </button>
+                    <div class="nice-form-group">
+                        <label>Price per Unit:</label>
+                        <input
+                            type="number"
+                            name="productPricePerUnit"
+                            value={detail.productPricePerUnit}
+                            onChange={(e) => handleInputChange(e, index)}
+                            required
+                        />
+                    </div>
 
-      <button type="submit">Create Invoice</button>
-    </form>
+                    <div class="nice-form-group">
+                        <label>Quantity:</label>
+                        <input
+                            type="number"
+                            name="productQuantity"
+                            value={detail.productQuantity}
+                            onChange={(e) => handleInputChange(e, index)}
+                            required
+                        />
+                    </div>
+                </div>
+            ))}
+            
+            <button type="button" onClick={handleAddDetail}>
+                + Add Product
+            </button>
+            <hr/>
+            <button className='nice-button' type="submit">Create Invoice</button>
+        </form>
+    </Card>
   );
 };
 
